@@ -15,7 +15,7 @@ class Tree {
 
   _onLiClick(qwe) {
     if (qwe.target !== qwe.currentTarget) {
-    	return;
+      return;
     }
 
     alert(event.target.firstChild.data);
@@ -23,7 +23,7 @@ class Tree {
 
   _createTreeText(obj) { // отдельная рекурсивная функция
     if (Object.keys(obj).length === 0) {
-    	return document.createTextNode('');
+      return document.createTextNode('');
     }
 
     let ul = document.createElement('ul');
