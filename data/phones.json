@@ -1,7 +1,4 @@
-'use strict';
-
-
-let phones1 = [
+[
   {
     "age": 0,
     "id": "motorola-xoom-with-wi-fi",
@@ -155,11 +152,4 @@ let phones1 = [
     "name": "Motorola CHARM\u2122 with MOTOBLUR\u2122",
     "snippet": "Motorola CHARM fits easily in your pocket or palm.  Includes MOTOBLUR service."
   }
-];
-
-new PhoneCatalogue({
-  element: document.querySelector('#app-container'),
-  phones: phones1
-});
-
-
+]

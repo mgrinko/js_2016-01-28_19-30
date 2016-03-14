@@ -3,33 +3,175 @@
 
 <head>
   <title>Галерея</title>
-  <script src="js/gallery.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.6.1/lodash.min.js" defer></script>
+  <script src="js/phoneCatalogue.js" defer></script>
   <script src="js/app.js" defer></script>
-  <link rel="stylesheet" href="css/gallery.css">
   <meta charset="utf-8">
 </head>
 
 <body>
 
-  <div data-component="gallery" class="js-gallery">
-
-    <p><img class="js-gallery_large-img"></p>
-
-    <ul class="js-gallery_thumbs">
-
-    </ul>
-
+  <div class="view-container">
+    <div class="view-frame" id="app-container"></div>
   </div>
 
-  <div data-component="gallery" class="js-gallery">
 
-    <p><img class="js-gallery_large-img"></p>
+  <script type="text/template" id="phone-catalogue-template">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2">
+          <!--Sidebar content-->
 
-    <ul class="js-gallery_thumbs">
+          Search: <input type="text">
+          Sort by:
+          <select>
+            <option value="name">Alphabetical</option>
+            <option value="age">Newest</option>
+          </select>
 
+        </div>
+
+        <div class="col-md-10">
+          <!--Body content-->
+
+          <ul class="phones">
+            <% phones.forEach(function(phone) { %>
+              <li class="thumbnail phone-listing">
+                <a href="#/phones/<%-phone.id%>" class="thumb">
+                  <img src="<%= phone.imageUrl %>" alt="<%-phone.name%>">
+                </a>
+                <a href="#/phones/<%-phone.id%>"><%= phone.name %></a>
+                <p><%= phone.snippet %></p>
+              </li>
+            <% }); %>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </script>
+
+
+  <script type="text/template">
+    <div class="phone-images">
+      <img class="phone active" src="img/phones/motorola-xoom-with-wi-fi.0.jpg">
+    </div>
+
+    <h1>{{phone.name}}</h1>
+
+    <p>{{phone.description}}</p>
+
+    <ul class="phone-thumbs">
+      <li>
+        <img src="{{phone.img}}">
+      </li>
     </ul>
 
-  </div>
+    <ul class="specs">
+      <li>
+        <span>Availability and Networks</span>
+        <dl>
+          <dt>Availability</dt>
+          <dd>{{availability}}</dd>
+        </dl>
+      </li>
+      <li>
+        <span>Battery</span>
+        <dl>
+          <dt>Type</dt>
+          <dd>{{phone.battery.type}}</dd>
+          <dt>Talk Time</dt>
+          <dd>{{phone.battery.talkTime}}</dd>
+          <dt>Standby time (max)</dt>
+          <dd>{{phone.battery.standbyTime}}</dd>
+        </dl>
+      </li>
+      <li>
+        <span>Storage and Memory</span>
+        <dl>
+          <dt>RAM</dt>
+          <dd>{{phone.storage.ram}}</dd>
+          <dt>Internal Storage</dt>
+          <dd>{{phone.storage.flash}}</dd>
+        </dl>
+      </li>
+      <li>
+        <span>Connectivity</span>
+        <dl>
+          <dt>Network Support</dt>
+          <dd>{{phone.connectivity.cell}}</dd>
+          <dt>WiFi</dt>
+          <dd>{{phone.connectivity.wifi}}</dd>
+          <dt>Bluetooth</dt>
+          <dd>{{phone.connectivity.bluetooth}}</dd>
+          <dt>Infrared</dt>
+          <dd>{{phone.connectivity.infrared | checkmark}}</dd>
+          <dt>GPS</dt>
+          <dd>{{phone.connectivity.gps | checkmark}}</dd>
+        </dl>
+      </li>
+      <li>
+        <span>Android</span>
+        <dl>
+          <dt>OS Version</dt>
+          <dd>{{phone.android.os}}</dd>
+          <dt>UI</dt>
+          <dd>{{phone.android.ui}}</dd>
+        </dl>
+      </li>
+      <li>
+        <span>Size and Weight</span>
+        <dl>
+          <dt>Dimensions</dt>
+          <dd>{{phone.sizeAndWeight.dimensions}}</dd>
+          <dt>Weight</dt>
+          <dd>{{phone.sizeAndWeight.weight}}</dd>
+        </dl>
+      </li>
+      <li>
+        <span>Display</span>
+        <dl>
+          <dt>Screen size</dt>
+          <dd>{{phone.display.screenSize}}</dd>
+          <dt>Screen resolution</dt>
+          <dd>{{phone.display.screenResolution}}</dd>
+          <dt>Touch screen</dt>
+          <dd>{{phone.display.touchScreen}}</dd>
+        </dl>
+      </li>
+      <li>
+        <span>Hardware</span>
+        <dl>
+          <dt>CPU</dt>
+          <dd>{{phone.hardware.cpu}}</dd>
+          <dt>USB</dt>
+          <dd>{{phone.hardware.usb}}</dd>
+          <dt>Audio / headphone jack</dt>
+          <dd>{{phone.hardware.audioJack}}</dd>
+          <dt>FM Radio</dt>
+          <dd>{{phone.hardware.fmRadio | checkmark}}</dd>
+          <dt>Accelerometer</dt>
+          <dd>{{phone.hardware.accelerometer | checkmark}}</dd>
+        </dl>
+      </li>
+      <li>
+        <span>Camera</span>
+        <dl>
+          <dt>Primary</dt>
+          <dd>{{phone.camera.primary}}</dd>
+          <dt>Features</dt>
+          <dd>{{phone.camera.features.join(', ')}}</dd>
+        </dl>
+      </li>
+      <li>
+        <span>Additional Features</span>
+        <dd>{{phone.additionalFeatures}}</dd>
+      </li>
+    </ul>
+  </script>
+
 </body>
 
 </html>
