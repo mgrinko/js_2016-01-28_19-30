@@ -3,9 +3,10 @@
 var PhoneCatalogue = (function() {
   let template = document.getElementById('phone-catalogue-template').innerHTML;
 
-  class PhoneCatalogue {
+  class PhoneCatalogue extends Component {
     constructor(options) {
-      this._el = options.element;
+      super(options);
+
       this._phones = options.phones;
 
       this._el.innerHTML = _.template(template)({
@@ -13,14 +14,6 @@ var PhoneCatalogue = (function() {
       });
 
       this._el.onclick = this._onPhoneClick.bind(this);
-    }
-
-    hide() {
-      this._el.classList.add('js-hidden');
-    }
-
-    getElement() {
-      return this._el;
     }
 
     _onPhoneClick(event) {
