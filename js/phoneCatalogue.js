@@ -25,15 +25,7 @@ var PhoneCatalogue = (function() {
 
       let phoneId = link.closest('[data-selector="phoneItemContainer"]').dataset.id;
 
-      this._triggerPhoneSelectedEvent(phoneId);
-    }
-
-    _triggerPhoneSelectedEvent(phoneId) {
-      let event = new CustomEvent('phoneSelected', {
-        detail: phoneId
-      });
-
-      this._el.dispatchEvent(event);
+      this._trigger('phoneSelected', phoneId);
     }
   }
 

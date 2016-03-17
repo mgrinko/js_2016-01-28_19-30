@@ -179,8 +179,9 @@ class Page {
       element: this._el.querySelector('[data-component="sorter"]')
     });
 
-    this._phoneCatalogue.getElement().addEventListener('phoneSelected', this._onPhoneSelected.bind(this));
-    this._phoneViewer.getElement().addEventListener('back', this._onPhoneViewerBack.bind(this));
+    this._phoneCatalogue.on('phoneSelected', this._onPhoneSelected.bind(this));
+    this._phoneViewer.on('back', this._onPhoneViewerBack.bind(this));
+    this._filter.on('filter', this._onFilter.bind(this));
   }
 
   _onPhoneSelected(event) {
@@ -194,6 +195,10 @@ class Page {
   _onPhoneViewerBack() {
     this._phoneCatalogue.show();
     this._phoneViewer.hide();
+  }
+
+  _onFilter(event) {
+
   }
 
   _getPhoneDetails(phoneId) {
