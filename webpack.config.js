@@ -7,6 +7,7 @@ module.exports = {
   entry: "./frontend/js/app.js",
   output: {
     path: __dirname + '/public',
+    publicPath: '/public/',
     filename: "build.js"
   },
 
@@ -22,6 +23,7 @@ module.exports = {
 
         loader: 'babel', // 'babel-loader' is also a legal name to reference
         query: {
+          optional: ['runtime'],
           presets: ['es2015']
         }
       },
