@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Phones</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap.css">
+  <link rel="stylesheet" href="app.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.6.1/lodash.min.js" defer></script>
+
+  <script src="build.js" defer></script>
+</head>
+
+<body>
+
+  <div class="view-container">
+    <div class="view-frame" id="app-container">
+
+      <div class="container-fluid">
+        <div class="row">
+
+          <!--Sidebar content-->
+          <div class="col-md-2">
+            <div data-component="filter">
+              Search: <input type="text">
+            </div>
+
+            <div data-component="sorter"></div>
+          </div>
+
+          <!--Body content-->
+          <div class="col-md-10">
+
+            <div data-component="phoneCatalogue"></div>
+
+            <div class="js-hidden" data-component="phoneViewer"></div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+
+</html>

@@ -1,11 +1,14 @@
 'use strict';
 
+let Component = require('./component.js');
+
+let template = require('raw!../templates/phone-viewer-template.html');
+
 class PhoneViewer extends Component {
   constructor(options) {
     super(options);
 
-    this._template = document.getElementById('phone-viewer-template').innerHTML;
-    this._compiledTemplate = _.template(this._template);
+    this._compiledTemplate = _.template(template);
 
     this._el.addEventListener('click', this._onBackClick.bind(this));
   }
@@ -28,3 +31,5 @@ class PhoneViewer extends Component {
     this._trigger('back');
   }
 }
+
+module.exports = PhoneViewer;

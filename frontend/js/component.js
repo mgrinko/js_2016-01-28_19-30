@@ -33,3 +33,5 @@ class Component {
     this._el.addEventListener(eventName, handler);
   }
 }
+
+module.exports = Component;

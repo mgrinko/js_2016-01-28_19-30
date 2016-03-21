@@ -1,0 +1,25 @@
+p Phone catalogue
+
+ul.phones
+  each phone in phones
+    li(
+      class="thumbnail phone-listing"
+      data-selector="phoneItemContainer"
+      data-id="#{phone.id}"
+    )
+      a(
+        href="#/phones/#{phone.id}"
+        data-selector="openTrigger"
+        class="thumb"
+      )
+        img(
+          src="#{phone.imageUrl}"
+          alt="#{phone.name}"
+        )
+
+      a(
+        href="#/phones/#{phone.id}"
+        data-selector="openTrigger"
+      )= phone.name
+
+      p= phone.snippet
