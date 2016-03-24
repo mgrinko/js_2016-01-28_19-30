@@ -5,10 +5,6 @@ class Component {
     this._el = options.element;
   }
 
-  getElement() {
-    return this._el;
-  }
-
   show() {
     this._el.classList.remove('js-hidden');
   }

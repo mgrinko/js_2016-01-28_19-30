@@ -23,7 +23,8 @@ module.exports = {
 
         loader: 'babel', // 'babel-loader' is also a legal name to reference
         query: {
-          presets: ['es2015']
+          presets: ['es2015'],
+          plugins: ['transform-runtime']
         }
       },
       {
@@ -33,11 +34,11 @@ module.exports = {
     ]
   },
 
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
-  ]
+  //plugins: [
+  //  new webpack.optimize.UglifyJsPlugin({
+  //    compress: {
+  //      warnings: false
+  //    }
+  //  })
+  //]
 };
