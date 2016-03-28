@@ -30,6 +30,10 @@ module.exports = {
       {
         test: /\.jade/,
         loader: 'jade'
+      },
+      {
+        test: /\.hbs/,
+        loader: "handlebars-loader"
       }
     ]
   },
