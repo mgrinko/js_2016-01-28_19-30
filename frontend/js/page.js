@@ -42,17 +42,27 @@ class Page {
     let phoneId = event.detail.phoneId;
 
     let phoneDetailsPromise = this._ajax(`/data/phones/${phoneId}.json`)
-      .then(this._onPhoneDetailLoaded.bind(this), this._onPhoneDetailsError.bind(this));
+      .catch(this._onPhoneDetailsError.bind(this));
+    let mouseLeavePromise = this._createMouseLeavePromise(event.detail.phoneElement);
 
-    this._currentPhoneElement = event.detail.phoneElement;
-
-    this._currentPhoneElement.addEventListener('mouseleave', () => {
-      phoneDetailsPromise.then(() => this._showPhone(this._currentPhoneDetails));
-    });
+    Promise.all([phoneDetailsPromise, mouseLeavePromise])
+      .then(results => {
+        this._showPhone(results[0]);
+      })
+      .catch(error => console.error(`Can't show phone details`));
   }
 
-  _onPhoneDetailLoaded(phoneDetails) {
-    this._currentPhoneDetails = phoneDetails;
+  _createMouseLeavePromise(element) {
+    let promise = new Promise(function(resolve, reject) {
+      element.addEventListener('mouseleave', mouseLeaveHandler);
+
+      function mouseLeaveHandler(event) {
+        resolve();
+        element.removeEventListener('mouseleave', mouseLeaveHandler);
+      }
+    });
+
+    return promise;
   }
 
   _showPhone(phoneDetails) {
@@ -62,6 +72,7 @@ class Page {
 
   _onPhoneDetailsError(error) {
     console.error(error);
+    throw error;
   }
 
   _onPhoneViewerBack() {

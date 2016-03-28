@@ -119,20 +119,28 @@
 	
 	      var phoneId = event.detail.phoneId;
 	
-	      var phoneDetailsPromise = this._ajax('/data/phones/' + phoneId + '.json').then(this._onPhoneDetailLoaded.bind(this), this._onPhoneDetailsError.bind(this));
+	      var phoneDetailsPromise = this._ajax('/data/phones/' + phoneId + '.json').catch(this._onPhoneDetailsError.bind(this));
+	      var mouseLeavePromise = this._createMouseLeavePromise(event.detail.phoneElement);
 	
-	      this._currentPhoneElement = event.detail.phoneElement;
-	
-	      this._currentPhoneElement.addEventListener('mouseleave', function () {
-	        phoneDetailsPromise.then(function () {
-	          return _this._showPhone(_this._currentPhoneDetails);
-	        });
+	      _promise2.default.all([phoneDetailsPromise, mouseLeavePromise]).then(function (results) {
+	        _this._showPhone(results[0]);
+	      }).catch(function (error) {
+	        return console.error('Can\'t show phone details');
 	      });
 	    }
 	  }, {
-	    key: '_onPhoneDetailLoaded',
-	    value: function _onPhoneDetailLoaded(phoneDetails) {
-	      this._currentPhoneDetails = phoneDetails;
+	    key: '_createMouseLeavePromise',
+	    value: function _createMouseLeavePromise(element) {
+	      var promise = new _promise2.default(function (resolve, reject) {
+	        element.addEventListener('mouseleave', mouseLeaveHandler);
+	
+	        function mouseLeaveHandler(event) {
+	          resolve();
+	          element.removeEventListener('mouseleave', mouseLeaveHandler);
+	        }
+	      });
+	
+	      return promise;
 	    }
 	  }, {
 	    key: '_showPhone',
@@ -144,6 +152,7 @@
 	    key: '_onPhoneDetailsError',
 	    value: function _onPhoneDetailsError(error) {
 	      console.error(error);
+	      throw error;
 	    }
 	  }, {
 	    key: '_onPhoneViewerBack',
