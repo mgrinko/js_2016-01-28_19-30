@@ -7,6 +7,13 @@ var file = new static.Server('.', {
 
 function accept(req, res) {
   console.log(req.url);
+
+  if (req.url.slice(0, 6) === '/data/') {
+    req.url = '/server' + req.url;
+  } else {
+    req.url = '/public' + req.url;
+  }
+
   
   if (req.url == '/data/phones.json') {
     setTimeout(function() {
