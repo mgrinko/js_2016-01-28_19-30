@@ -39,20 +39,23 @@ class Page {
   }
 
   _onPhoneSelected(event) {
-    let phoneId = event.detail;
+    let phoneId = event.detail.phoneId;
 
-    this._showPhoneDetails(phoneId);
-  }
+    let phoneDetailsPromise = this._ajax(`/data/phones/${phoneId}.json`)
+      .then(this._onPhoneDetailLoaded.bind(this), this._onPhoneDetailsError.bind(this));
 
+    this._currentPhoneElement = event.detail.phoneElement;
 
-  _showPhoneDetails(phoneId) {
-    this._ajax(`/data/phones/${phoneId}.json`, {
-      success: this._onPhoneDetailLoaded.bind(this),
-      error: this._onPhoneDetailsError.bind(this)
+    this._currentPhoneElement.addEventListener('mouseleave', () => {
+      phoneDetailsPromise.then(() => this._showPhone(this._currentPhoneDetails));
     });
   }
 
   _onPhoneDetailLoaded(phoneDetails) {
+    this._currentPhoneDetails = phoneDetails;
+  }
+
+  _showPhone(phoneDetails) {
     this._phoneViewer.show(phoneDetails);
     this._phoneCatalogue.hide();
   }
@@ -62,6 +65,8 @@ class Page {
   }
 
   _onPhoneViewerBack() {
+    this._currentPhoneDetails = null;
+
     this._phoneCatalogue.show();
     this._phoneViewer.hide();
   }
@@ -93,28 +98,32 @@ class Page {
   }
 
   _syncPhones(query) {
-    this._ajax('/data/phones.json?query=' + encodeURIComponent(query), {
-      success: this._onPhonesSyncSuccess.bind(this),
-      error: this._onPhonesSyncError.bind(this)
-    });
+    this._ajax('/data/phones.json?query=' + encodeURIComponent(query))
+      .then(this._onPhonesSyncSuccess.bind(this), this._onPhonesSyncError.bind(this));
   }
 
   _ajax(url, options) {
-    var xhr = new XMLHttpRequest();
+    options = options || {};
 
-    var method = options.method || 'GET';
+    let promise = new Promise(function(resolve, reject) {
+      var xhr = new XMLHttpRequest();
 
-    xhr.open(method, url, true);
+      var method = options.method || 'GET';
 
-    xhr.onload = function() {
-      options.success(JSON.parse(xhr.responseText));
-    };
+      xhr.open(method, url, true);
 
-    xhr.onerror = function() {
-      options.error(new Error(xhr.responseText))
-    };
+      xhr.onload = function() {
+        resolve(JSON.parse(xhr.responseText));
+      };
 
-    xhr.send();
+      xhr.onerror = function() {
+        reject(new Error(xhr.responseText));
+      };
+
+      xhr.send();
+    });
+
+    return promise;
   }
 }
 
